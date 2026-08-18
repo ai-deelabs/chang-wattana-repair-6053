@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ช่างวัฒนา ซ่อมตู้เย็น นอกสถานที่ | หน่วยเทคนิคเย็นเร่งด่วน กรุงเทพฯ-ปริมณฑล</title>
+<meta name="description" content="ช่างวัฒนา ซ่อมตู้เย็น ตู้แช่ นอกสถานที่ กรุงเทพฯ และปริมณฑล ทีมช่างเทคนิคกว่า 10 ปี ตรวจเช็คฟรี ซ่อมไว รับประกันผลงาน บริการฉุกเฉิน 24 ชั่วโมง">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&family=Chakra+Petch:wght@400;500;600;700&family=Kanit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@0.460.0"></script>
+<style>
+  :root{
+    --background:#0E1113;
+    --card:#161B1E;
+    --bg-accent:#10181A;
+    --foreground:#EAF2F2;
+    --muted:#7C9294;
+    --border:#26383B;
+    --primary:#00E5FF;
+    --secondary:#1C2A2D;
+    --accent:#FF4433;
+    --font-heading:'Chakra Petch','Kanit',sans-serif;
+    --font-body:'Sarabun','Kanit',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--background);
+    color:var(--foreground);
+    font-family:var(--font-body);
+    line-height:1.8;
+    word-break:break-word;
+    overflow-wrap:break-word;
+    overflow-x:hidden;
+    font-size:16px;
+  }
+  h1,h2,h3,h4,.font-head{
+    font-family:var(--font-heading);
+    line-height:1.5;
+    font-weight:700;
+    text-transform:uppercase;
+  }
+  h1{letter-spacing:0.5px}
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%;display:block}
+  .container{max-width:1200px;margin:0 auto;padding:0 20px}
+
+  /* schematic grid backdrop */
+  .schematic-bg{
+    position:fixed;inset:0;z-index:0;pointer-events:none;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size:42px 42px;
+    opacity:0.14;
+  }
+
+  /* ===== NAV ===== */
+  .navbar{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:16px 20px;
+    background:rgba(14,17,19,0.7);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--border);
+    transition:background .3s ease,padding .3s ease;
+  }
+  .navbar.scrolled{background:rgba(14,17,19,0.95);padding:10px 20px;}
+  .brand{
+    font-family:var(--font-heading);
+    font-size:1.15rem;
+    letter-spacing:1px;
+    display:flex;align-items:center;gap:8px;
+  }
+  .brand .dot{width:9px;height:9px;background:var(--primary);border-radius:50%;box-shadow:0 0 10px var(--primary);animation:blink 1.6s infinite;}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+  .nav-links{display:none;align-items:center;gap:28px;}
+  .nav-links a{
+    font-family:var(--font-heading);
+    font-size:0.82rem;
+    letter-spacing:1px;
+    color:var(--muted);
+    padding:10px 2px;
+    border-bottom:2px solid transparent;
+    transition:color .25s,border-color .25s;
+  }
+  .nav-links a:hover{color:var(--primary);border-color:var(--primary)}
+  .nav-cta{
+    display:none;
+    font-family:var(--font-heading);
+    font-size:0.8rem;
+    letter-spacing:1px;
+    background:var(--primary);
+    color:#04141a;
+    padding:10px 18px;
+    border-radius:2px;
+    align-items:center;gap:8px;
+  }
+  .hamburger{
+    background:none;border:1px solid var(--border);color:var(--foreground);
+    width:44px;height:44px;display:flex;align-items:center;justify-content:center;
+    border-radius:3px;cursor:pointer;
+  }
+  .mobile-menu{
+    position:fixed;top:0;right:0;bottom:0;width:78%;max-width:320px;
+    background:var(--card);border-left:1px solid var(--border);
+    z-index:200;transform:translateX(100%);transition:transform .35s ease;
+    padding:24px;display:flex;flex-direction:column;gap:6px;
+  }
+  .mobile-menu.open{transform:translateX(0)}
+  .mobile-menu a{
+    font-family:var(--font-heading);font-size:1rem;letter-spacing:1px;
+    padding:16px 8px;border-bottom:1px solid var(--border);color:var(--foreground);
+  }
+  .mobile-menu .close-btn{align-self:flex-end;background:none;border:none;color:var(--foreground);width:44px;height:44px;cursor:pointer}
+  .menu-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:150;opacity:0;pointer-events:none;transition:opacity .3s}
+  .menu-overlay.open{opacity:1;pointer-events:auto}
+
+  .lang-sw{
+    display:flex;align-items:center;gap:5px;font-size:0.78em;
+    color:var(--muted);padding:8px;border:1px solid var(--border);border-radius:3px;
+  }
+  .lang-sw svg{color:var(--primary)}
+
+  /* ===== HERO ===== */
+  .hero{
+    position:relative;z-index:1;
+    padding:120px 0 60px;
+    min-height:100vh;
+    display:flex;align-items:center;
+  }
+  .hero-grid{
+    display:grid;grid-template-columns:1fr;gap:40px;align-items:center;
+  }
+  .hero-tag{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:var(--font-heading);font-size:0.72rem;letter-spacing:2px;
+    color:var(--primary);border:1px solid var(--primary);
+    padding:6px 12px;border-radius:2px;margin-bottom:20px;
+  }
+  .hero-tag .pulse{width:7px;height:7px;background:var(--accent);border-radius:50%;box-shadow:0 0 8px var(--accent);animation:blink 1s infinite}
+  .hero h1{
+    font-size:clamp(2.1rem,7vw,4rem);
+    padding-top:6px;
+    margin-bottom:20px;
+  }
+  .hero h1 span{color:var(--primary)}
+  .hero p{color:var(--muted);font-size:1.05rem;max-width:520px;margin-bottom:30px}
+  .hero-ctas{display:flex;flex-direction:column;gap:14px;margin-bottom:30px}
+  .btn{
+    font-family:var(--font-heading);
+    font-size:0.85rem;letter-spacing:1px;
+    padding:0.95em 1.6em;
+    border-radius:2px;
+    display:inline-flex;align-items:center;justify-content:center;gap:10px;
+    min-height:44px;
+    border:1px solid transparent;
+    cursor:pointer;
+    transition:transform .25s ease,box-shadow .25s ease,background .25s ease;
+  }
+  .btn-primary{background:var(--primary);color:#04141a;}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 26px rgba(0,229,255,.35)}
+  .btn-secondary{background:var(--secondary);color:var(--foreground);border-color:var(--border)}
+  .btn-secondary:hover{border-color:var(--primary);color:var(--primary)}
+  .hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--border);border-radius:4px;overflow:visible}
+  .hero-stat{padding:14px 10px;text-align:center;border-right:1px solid var(--border)}
+  .hero-stat:last-child{border-right:none}
+  .hero-stat b{display:block;font-family:var(--font-heading);font-size:1.5rem;color:var(--primary)}
+  .hero-stat span{font-size:0.72rem;color:var(--muted);letter-spacing:0.5px}
+
+  .hero-visual{position:relative}
+  .hero-frame{
+    position:relative;border:1px solid var(--border);border-radius:6px;
+    overflow:hidden;background:var(--card);
+  }
+  .hero-frame img{width:100%;height:340px;object-fit:cover;filter:grayscale(20%) contrast(1.1);
+    animation:slowzoom 16s ease-in-out infinite alternate;}
+  @keyframes slowzoom{from{transform:scale(1)}to{transform:scale(1.08)}}
+  .frame-label{
+    position:absolute;top:12px;left:12px;
+    font-family:var(--font-heading);font-size:0.68rem;letter-spacing:1px;
+    background:rgba(14,17,19,0.8);color:var(--primary);
+    padding:5px 10px;border:1px solid var(--primary);border-radius:2px;
+  }
+  .frame-crosshair{
+    position:absolute;top:50%;left:50%;width:60px;height:60px;
+    transform:translate(-50%,-50%);pointer-events:none;
+  }
+  .frame-crosshair::before,.frame-crosshair::after{
+    content:'';position:absolute;background:var(--primary);opacity:.6;
+  }
+  .frame-crosshair::before{width:100%;height:1px;top:50%}
+  .frame-crosshair::after{height:100%;width:1px;left:50%}
+  .frame-readout{
+    position:absolute;bottom:12px;right:12px;
+    font-family:var(--font-heading);font-size:0.68rem;color:var(--accent);
+    background:rgba(14,17,19,0.85);padding:5px 10px;border:1px solid var(--accent);border-radius:2px;
+  }
+
+  /* ===== section shared ===== */
+  section{position:relative;z-index:1;padding:70px 0}
+  .eyebrow{
+    font-family:var(--font-heading);font-size:0.72rem;letter-spacing:2px;color:var(--primary);
+    display:flex;align-items:center;gap:10px;margin-bottom:14px;
+  }
+  .eyebrow::before{content:'';width:24px;height:1px;background:var(--primary)}
+  .sec-title{font-size:clamp(1.7rem,5vw,2.6rem);margin-bottom:16px;padding-top:4px}
+  .sec-desc{color:var(--muted);max-width:600px;margin-bottom:40px}
+
+  .reveal{opacity:0;transform:translateY(28px);transition:opacity .6s ease,transform .6s ease}
+  .reveal.in{opacity:1;transform:translateY(0)}
+
+  /* ===== services dashboard ===== */
+  .dash{
+    background:var(--bg-accent);
+    border-top:1px solid var(--border);
+    border-bottom:1px solid var(--border);
+  }
+  .panel-grid{display:grid;grid-template-columns:1fr;gap:16px}
+  .panel{
+    background:var(--card);border:1px solid var(--border);border-radius:6px;
+    padding:26px;position:relative;overflow:visible;
+    transition:border-color .3s,transform .3s;
+  }
+  .panel:hover{border-color:var(--primary);transform:translateY(-4px)}
+  .panel-num{position:absolute;top:16px;right:18px;font-family:var(--font-heading);font-size:0.75rem;color:var(--muted)}
+  .panel-icon{
+    width:46px;height:46px;border-radius:4px;background:var(--secondary);
+    display:flex;align-items:center;justify-content:center;color:var(--primary);margin-bottom:16px;
+    border:1px solid var(--border);
+  }
+  .panel h3{font-size:1.1rem;margin-bottom:10px;padding-top:2px}
+  .panel p{color:var(--muted);font-size:0.94rem}
+  .panel-tag{
+    display:inline-block;margin-top:14px;font-family:var(--font-heading);
+    font-size:0.65rem;letter-spacing:1px;color:var(--accent);
+    border:1px solid var(--accent);padding:3px 8px;border-radius:2px;
+  }
+
+  /* ===== process timeline ===== */
+  .timeline{position:relative;padding-left:28px;border-left:2px solid var(--border)}
+  .t-step{position:relative;padding:0 0 44px 24px}
+  .t-step:last-child{padding-bottom:0}
+  .t-step::before{
+    content:'';position:absolute;left:-37px;top:2px;width:16px;height:16px;
+    border-radius:50%;background:var(--background);border:2px solid var(--primary);
+    box-shadow:0 0 0 4px var(--background);
+  }
+  .t-step .t-num{font-family:var(--font-heading);color:var(--primary);font-size:0.75rem;letter-spacing:2px;margin-bottom:6px;display:block}
+  .t-step h4{font-size:1.15rem;margin-bottom:8px;padding-top:2px}
+  .t-step p{color:var(--muted);font-size:0.95rem;max-width:480px}
+
+  /* ===== split POV ===== */
+  .split{display:grid;grid-template-columns:1fr;gap:2px;background:var(--border);border:1px solid var(--border);border-radius:6px;overflow:visible}
+  .split-cell{position:relative;background:var(--card);min-height:260px;overflow:hidden;border-radius:4px}
+  .split-cell img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;transition:transform .5s ease}
+  .split-cell:hover img{transform:scale(1.06)}
+  .split-overlay{
+    position:relative;z-index:2;height:100%;min-height:260px;padding:20px;
+    display:flex;flex-direction:column;justify-content:flex-end;
+    background:linear-gradient(180deg,rgba(14,17,19,0) 30%,rgba(14,17,19,.92) 100%);
+  }
+  .split-overlay .code{font-family:var(--font-heading);font-size:0.68rem;letter-spacing:1px;color:var(--primary);margin-bottom:8px}
+  .split-overlay h4{font-size:1.05rem;padding-top:2px}
+
+  /* ===== trust / gauges ===== */
+  .gauge-row{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+  .gauge{
+    background:var(--card);border:1px solid var(--border);border-radius:6px;
+    padding:24px 16px;text-align:center;
+  }
+  .gauge-val{font-family:var(--font-heading);font-size:2.2rem;color:var(--primary);padding-top:4px}
+  .gauge-lbl{font-size:0.78rem;color:var(--muted);letter-spacing:0.5px;margin-top:6px}
+
+  /* ===== testimonials ===== */
+  .quote-card{
+    background:var(--card);border:1px solid var(--border);border-radius:6px;
+    padding:26px;position:relative;
+  }
+  .quote-card::before{content:'"';position:absolute;top:6px;left:14px;font-family:var(--font-heading);font-size:3rem;color:var(--border)}
+  .quote-card p{color:var(--foreground);font-size:0.98rem;margin-bottom:16px;position:relative;z-index:1}
+  .quote-who{display:flex;align-items:center;gap:10px}
+  .quote-who .av{width:38px;height:38px;border-radius:50%;background:var(--secondary);display:flex;align-items:center;justify-content:center;color:var(--primary);font-family:var(--font-heading);font-size:0.8rem;flex-shrink:0}
+  .quote-who b{font-size:0.9rem;display:block}
+  .quote-who span{font-size:0.78rem;color:var(--muted)}
+  .stars{color:var(--primary);display:flex;gap:2px;margin-bottom:10px}
+
+  /* ===== coverage ===== */
+  .coverage-list{display:flex;flex-wrap:wrap;gap:10px}
+  .coverage-list span{
+    font-family:var(--font-heading);font-size:0.72rem;letter-spacing:0.5px;
+    border:1px solid var(--border);padding:8px 14px;border-radius:20px;color:var(--muted);
+  }
+
+  /* ===== CTA ===== */
+  .cta-alert{
+    position:relative;border:1px solid var(--accent);border-radius:8px;
+    background:linear-gradient(135deg,var(--card),var(--bg-accent));
+    padding:50px 24px;text-align:center;overflow:hidden;
+  }
+  .cta-alert::before{
+    content:'';position:absolute;inset:0;
+    background:repeating-linear-gradient(45deg,rgba(255,68,51,0.05) 0 12px,transparent 12px 24px);
+  }
+  .cta-alert-inner{position:relative;z-index:1}
+  .cta-alert .eyebrow{justify-content:center;color:var(--accent)}
+  .cta-alert .eyebrow::before{background:var(--accent)}
+  .cta-alert h2{font-size:clamp(1.6rem,5vw,2.4rem);margin-bottom:14px}
+  .cta-alert p{color:var(--muted);max-width:480px;margin:0 auto 26px}
+  .cta-btns{display:flex;flex-direction:column;gap:14px;max-width:320px;margin:0 auto}
+
+  /* ===== footer ===== */
+  footer{border-top:1px solid var(--border);padding:50px 0 30px;background:var(--bg-accent)}
+  .foot-grid{display:grid;grid-template-columns:1fr;gap:32px;margin-bottom:36px}
+  .foot-brand p{color:var(--muted);font-size:0.9rem;margin-top:12px;max-width:320px}
+  .foot-col h5{font-family:var(--font-heading);font-size:0.78rem;letter-spacing:1.5px;color:var(--primary);margin-bottom:14px}
+  .foot-col a,.foot-col p{display:block;color:var(--muted);font-size:0.9rem;margin-bottom:10px}
+  .foot-col a:hover{color:var(--primary)}
+  .foot-bottom{border-top:1px solid var(--border);padding-top:22px;display:flex;flex-direction:column;gap:10px;font-size:0.78rem;color:var(--muted)}
+
+  .float-call{
+    position:fixed;bottom:20px;right:20px;z-index:90;
+    width:56px;height:56px;border-radius:50%;background:var(--primary);
+    display:flex;align-items:center;justify-content:center;color:#04141a;
+    box-shadow:0 6px 22px rgba(0,229,255,.4);
+  }
+  .float-call .ring{position:absolute;inset:-6px;border:2px solid var(--primary);border-radius:50%;animation:ringpulse 1.8s infinite}
+  @keyframes ringpulse{0%{opacity:.7;transform:scale(1)}100%{opacity:0;transform:scale(1.5)}}
+
+  /* ===== desktop ===== */
+  @media(min-width:768px){
+    .nav-links{display:flex}
+    .nav-cta{display:inline-flex}
+    .hamburger{display:none}
+    .hero-grid{grid-template-columns:1.1fr 0.9fr;gap:60px}
+    .hero-ctas{flex-direction:row}
+    .panel-grid{grid-template-columns:repeat(3,1fr)}
+    .split{grid-template-columns:repeat(3,1fr)}
+    .gauge-row{grid-template-columns:repeat(4,1fr)}
+    .foot-grid{grid-template-columns:1.4fr 1fr 1fr 1fr}
+    .cta-btns{flex-direction:row;max-width:none}
+    .testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+    .foot-bottom{flex-direction:row;justify-content:space-between}
+  }
+  @media(min-width:1024px){
+    .hero-frame img{height:440px}
+  }
+</style>
+</head>
+<body>
+
+<div class="schematic-bg"></div>
+
+<nav class="navbar" id="navbar">
+  <a href="#top" class="brand">
+    <span class="dot"></span>ช่างวัฒนา<span style="color:var(--primary)">.SVC</span>
+  </a>
+  <div class="nav-links">
+    <a href="#services" data-lang-th="บริการ" data-lang-en="Services">บริการ</a>
+    <a href="#process" data-lang-th="ขั้นตอน" data-lang-en="Process">ขั้นตอน</a>
+    <a href="#work" data-lang-th="หน้างานจริง" data-lang-en="On-Site">หน้างานจริง</a>
+    <a href="#trust" data-lang-th="ความน่าเชื่อถือ" data-lang-en="Trust">ความน่าเชื่อถือ</a>
+    <a href="#contact" data-lang-th="ติดต่อ" data-lang-en="Contact">ติดต่อ</a>
+  </div>
+  <div style="display:flex;align-items:center;gap:12px">
+    <div class="lang-sw"><i data-lucide="globe" width="14" height="14"></i><span class="lang-sw__label">TH</span></div>
+    <a href="#contact" class="nav-cta"><i data-lucide="phone-call" width="15" height="15"></i><span data-lang-th="โทรด่วน" data-lang-en="Call Now">โทรด่วน</span></a>
+    <button class="hamburger" id="hamburgerBtn" aria-label="menu"><i data-lucide="menu" width="20" height="20"></i></button>
+  </div>
+</nav>
+
+<div class="menu-overlay" id="menuOverlay"></div>
+<div class="mobile-menu" id="mobileMenu">
+  <button class="close-btn" id="closeMenuBtn"><i data-lucide="x" width="22" height="22"></i></button>
+  <a href="#services" data-lang-th="บริการ" data-lang-en="Services">บริการ</a>
+  <a href="#process" data-lang-th="ขั้นตอน" data-lang-en="Process">ขั้นตอน</a>
+  <a href="#work" data-lang-th="หน้างานจริง" data-lang-en="On-Site">หน้างานจริง</a>
+  <a href="#trust" data-lang-th="ความน่าเชื่อถือ" data-lang-en="Trust">ความน่าเชื่อถือ</a>
+  <a href="#contact" data-lang-th="ติดต่อ" data-lang-en="Contact">ติดต่อ</a>
+  <a href="#contact" class="btn btn-primary" style="margin-top:16px;justify-content:center"><i data-lucide="phone-call" width="16" height="16"></i><span data-lang-th="โทรด่วน" data-lang-en="Call Now">โทรด่วน</span></a>
+</div>
+
+<header class="hero" id="top">
+  <div class="container hero-grid">
+    <div class="reveal in">
+      <div class="hero-tag"><span class="pulse"></span><span data-lang-th="สถานะ: หน่วยเทคนิคพร้อมออกงาน" data-lang-en="STATUS: TECH UNITS ON STANDBY">สถานะ: หน่วยเทคนิคพร้อมออกงาน</span></div>
+      <h1 data-lang-th='ตู้เย็นเสีย <span style="color:var(--primary)">อย่ารอ</span> เรียกช่างเดี๋ยวนี้' data-lang-en='FRIDGE DOWN <span style="color:var(--primary)">DON\'T WAIT</span> DISPATCH NOW'>ตู้เย็นเสีย <span>อย่ารอ</span> เรียกช่างเดี๋ยวนี้</h1>
+      <p data-lang-th="ทีมช่างวัฒนา ผู้เชี่ยวชาญซ่อมตู้เย็น-ตู้แช่นอกสถานที่ กว่า 10 ปี ครอบคลุมกรุงเทพฯ และปริมณฑล ตรวจวินิจฉัยแม่นยำแบบวิศวกร แก้ปัญหาจบในครั้งเดียว" data-lang-en="Chang Wattana's on-site technicians repair refrigerators and cold-cabinets across Bangkok and surrounding provinces with 10+ years of field-grade diagnostic precision.">ทีมช่างวัฒนา ผู้เชี่ยวชาญซ่อมตู้เย็น-ตู้แช่นอกสถานที่ กว่า 10 ปี ครอบคลุมกรุงเทพฯ และปริมณฑล ตรวจวินิจฉัยแม่นยำแบบวิศวกร แก้ปัญหาจบในครั้งเดียว</p>
+      <div class="hero-ctas">
+        <a href="tel:0812345678" class="btn btn-primary"><i data-lucide="siren" width="17" height="17"></i><span data-lang-th="โทรฉุกเฉิน 24 ชม." data-lang-en="24H Emergency Line">โทรฉุกเฉิน 24 ชม.</span></a>
+        <a href="#services" class="btn btn-secondary"><i data-lucide="clipboard-list" width="17" height="17"></i><span data-lang-th="ตรวจเช็คฟรี" data-lang-en="Free Diagnostic">ตรวจเช็คฟรี</span></a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat"><b>10+</b><span data-lang-th="ปีประสบการณ์" data-lang-en="YEARS EXP.">ปีประสบการณ์</span></div>
+        <div class="hero-stat"><b>24/7</b><span data-lang-th="พร้อมออกงาน" data-lang-en="ON CALL">พร้อมออกงาน</span></div>
+        <div class="hero-stat"><b>3,200+</b><span data-lang-th="งานสำเร็จ" data-lang-en="JOBS DONE">งานสำเร็จ</span></div>
+      </div>
+    </div>
+    <div class="reveal">
+      <div class="hero-frame">
+        <span class="frame-label">CAM_01 // FIELD-VIEW</span>
+        <img src="https://images.unsplash.com/photo-1664087783968-0cd7deee8390?w=900&h=700&fit=crop" alt="ช่างกำลังตรวจซ่อมชิ้นส่วนภายในตู้เย็น">
+        <div class="frame-crosshair"></div>
+        <span class="frame-readout">TEMP -18°C · OK</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="dash" id="services">
+  <div class="container">
+    <div class="eyebrow reveal" data-lang-th="ระบบบริการ" data-lang-en="SERVICE MODULES">ระบบบริการ</div>
+    <h2 class="sec-title reveal" data-lang-th="เลือกบริการที่ตรงกับปัญหาของคุณ" data-lang-en="Select The Module That Matches Your Problem">เลือกบริการที่ตรงกับปัญหาของคุณ</h2>
+    <p class="sec-desc reveal" data-lang-th="ครอบคลุมทุกประเภทตู้เย็น-ตู้แช่ ตั้งแต่บ้านพักไปจนถึงระบบความเย็นเชิงพาณิชย์ พร้อมอะไหล่แท้และเครื่องมือวัดมาตรฐานช่าง" data-lang-en="Full coverage from home refrigerators to commercial cold-chain systems, backed by genuine parts and calibrated diagnostic tools.">ครอบคลุมทุกประเภทตู้เย็น-ตู้แช่ ตั้งแต่บ้านพักไปจนถึงระบบความเย็นเชิงพาณิชย์ พร้อมอะไหล่แท้และเครื่องมือวัดมาตรฐานช่าง</p>
+
+    <div class="panel-grid">
+      <div class="panel reveal">
+        <span class="panel-num">01</span>
+        <div class="panel-icon"><i data-lucide="refrigerator" width="22" height="22"></i></div>
+        <h3 data-lang-th="ซ่อมตู้เย็นบ้าน" data-lang-en="Home Refrigerator Repair">ซ่อมตู้เย็นบ้าน</h3>
+        <p data-lang-th="แก้ปัญหาตู้เย็นไม่เย็น น้ำแข็งเกาะหนา คอมเพรสเซอร์ดัง มอเตอร์พัดลม และระบบไฟควบคุม ทุกยี่ห้อ" data-lang-en="Fixing warm interiors, excess frost, noisy compressors, fan motors, and control boards — all brands.">แก้ปัญหาตู้เย็นไม่เย็น น้ำแข็งเกาะหนา คอมเพรสเซอร์ดัง มอเตอร์พัดลม และระบบไฟควบคุม ทุกยี่ห้อ</p>
+        <span class="panel-tag" data-lang-th="ด่วน 2-4 ชม." data-lang-en="2-4H RESPONSE">ด่วน 2-4 ชม.</span>
+      </div>
+      <div class="panel reveal">
+        <span class="panel-num">02</span>
+        <div class="panel-icon"><i data-lucide="store" width="22" height="22"></i></div>
+        <h3 data-lang-th="ตู้แช่ร้านค้า" data-lang-en="Commercial Display Chillers">ตู้แช่ร้านค้า</h3>
+        <p data-lang-th="ตู้แช่เครื่องดื่ม ตู้แช่เค้ก ตู้โชว์อาหาร สำหรับร้านสะดวกซื้อและร้านอาหาร ซ่อมไวไม่ให้ของเสีย" data-lang-en="Beverage coolers, bakery display units, food showcases — fast turnaround to protect your stock.">ตู้แช่เครื่องดื่ม ตู้แช่เค้ก ตู้โชว์อาหาร สำหรับร้านสะดวกซื้อและร้านอาหาร ซ่อมไวไม่ให้ของเสีย</p>
+        <span class="panel-tag" data-lang-th="ป้องกันสินค้าเสีย" data-lang-en="STOCK PROTECTION">ป้องกันสินค้าเสีย</span>
+      </div>
+      <div class="panel reveal">
+        <span class="panel-num">03</span>
+        <div class="panel-icon"><i data-lucide="snowflake" width="22" height="22"></i></div>
+        <h3 data-lang-th="ตู้แช่แข็งพิเศษ" data-lang-en="Special-Duty Freezers">ตู้แช่แข็งพิเศษ</h3>
+        <p data-lang-th="ตู้แช่แข็งอุณหภูมิต่ำพิเศษ ห้องเย็น และระบบทำความเย็นอุตสาหกรรม โดยทีมช่างที่มีเครื่องมือเฉพาะทาง" data-lang-en="Ultra-low freezers, cold rooms, and industrial refrigeration handled with specialist-grade equipment.">ตู้แช่แข็งอุณหภูมิต่ำพิเศษ ห้องเย็น และระบบทำความเย็นอุตสาหกรรม โดยทีมช่างที่มีเครื่องมือเฉพาะทาง</p>
+        <span class="panel-tag" data-lang-th="งานเฉพาะทาง" data-lang-en="SPECIALIST GRADE">งานเฉพาะทาง</span>
+      </div>
+      <div class="panel reveal">
+        <span class="panel-num">04</span>
+        <div class="panel-icon"><i data-lucide="gauge" width="22" height="22"></i></div>
+        <h3 data-lang-th="ตรวจเช็คระบบฟรี" data-lang-en="Free System Diagnostic">ตรวจเช็คระบบฟรี</h3>
+        <p data-lang-th="วัดแรงดันน้ำยา ตรวจวงจรไฟฟ้า และประเมินอายุการใช้งานคอมเพรสเซอร์ ก่อนเสนอราคาแบบโปร่งใส" data-lang-en="Refrigerant pressure checks, circuit testing, compressor lifespan assessment — with transparent quoting.">วัดแรงดันน้ำยา ตรวจวงจรไฟฟ้า และประเมินอายุการใช้งานคอมเพรสเซอร์ ก่อนเสนอราคาแบบโปร่งใส</p>
+        <span class="panel-tag" data-lang-th="ไม่มีค่าใช้จ่าย" data-lang-en="NO CHARGE">ไม่มีค่าใช้จ่าย</span>
+      </div>
+      <div class="panel reveal">
+        <span class="panel-num">05</span>
+        <div class="panel-icon"><i data-lucide="wrench" width="22" height="22"></i></div>
+        <h3 data-lang-th="บำรุงรักษาเชิงป้องกัน" data-lang-en="Preventive Maintenance">บำรุงรักษาเชิงป้องกัน</h3>
+        <p data-lang-th="ล้างคอยล์ร้อน-เย็น เติมน้ำยา และตรวจสุขภาพระบบ ตามรอบเพื่อยืดอายุการใช้งานเครื่อง" data-lang-en="Coil cleaning, refrigerant top-ups, and scheduled health checks to extend equipment lifespan.">ล้างคอยล์ร้อน-เย็น เติมน้ำยา และตรวจสุขภาพระบบ ตามรอบเพื่อยืดอายุการใช้งานเครื่อง</p>
+        <span class="panel-tag" data-lang-th="รายไตรมาส" data-lang-en="QUARTERLY">รายไตรมาส</span>
+      </div>
+      <div class="panel reveal">
+        <span class="panel-num">06</span>
+        <div class="panel-icon"><i data-lucide="shield-check" width="22" height="22"></i></div>
+        <h3 data-lang-th="รับประกันผลงาน" data-lang-en="Workmanship Guarantee">รับประกันผลงาน</h3>
+        <p data-lang-th="ทุกงานซ่อมรับประกันอะไหล่และแรงงาน หากเกิดปัญหาซ้ำในระยะประกัน เข้าแก้ไขให้ทันที ไม่มีค่าใช้จ่ายเพิ่ม" data-lang-en="Every repair covers parts and labor — recurring issues within warranty are fixed immediately at no extra cost.">ทุกงานซ่อมรับประกันอะไหล่และแรงงาน หากเกิดปัญหาซ้ำในระยะประกัน เข้าแก้ไขให้ทันที ไม่มีค่าใช้จ่ายเพิ่ม</p>
+        <span class="panel-tag" data-lang-th="รับประกัน 90 วัน" data-lang-en="90-DAY WARRANTY">รับประกัน 90 วัน</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="process">
+  <div class="container">
+    <div class="eyebrow reveal" data-lang-th="ขั้นตอนปฏิบัติการ" data-lang-en="OPERATION SEQUENCE">ขั้นตอนปฏิบัติการ</div>
+    <h2 class="sec-title reveal" data-lang-th="จากสายโทรเข้า ถึงเครื่องเย็นอีกครั้ง" data-lang-en="From Your Call To Cold Again">จากสายโทรเข้า ถึงเครื่องเย็นอีกครั้ง</h2>
+    <p class="sec-desc reveal" data-lang-th="กระบวนการทำงานที่ออกแบบให้รวดเร็วและแม่นยำ ลดเวลารอคอย ลดความเสียหายจากอุณหภูมิที่สูงขึ้น" data-lang-en="A streamlined workflow engineered to minimize downtime and prevent temperature-related losses.">กระบวนการทำงานที่ออกแบบให้รวดเร็วและแม่นยำ ลดเวลารอคอย ลดความเสียหายจากอุณหภูมิที่สูงขึ้น</p>
+
+    <div class="timeline">
+      <div class="t-step reveal">
+        <span class="t-num">STEP 01</span>
+        <h4 data-lang-th="แจ้งอาการผ่านสายด่วน" data-lang-en="Report Symptoms On The Hotline">แจ้งอาการผ่านสายด่วน</h4>
+        <p data-lang-th="โทรแจ้งอาการเสีย รุ่นเครื่อง และสถานที่ ทีมงานประเมินระดับความเร่งด่วนทันที" data-lang-en="Call in the symptoms, unit model, and location — our team triages urgency instantly.">โทรแจ้งอาการเสีย รุ่นเครื่อง และสถานที่ ทีมงานประเมินระดับความเร่งด่วนทันที</p>
+      </div>
+      <div class="t-step reveal">
+        <span class="t-num">STEP 02</span>
+        <h4 data-lang-th="จัดส่งช่างเข้าพื้นที่" data-lang-en="Dispatch Technician To Site">จัดส่งช่างเข้าพื้นที่</h4>
+        <p data-lang-th="ช่างใกล้พื้นที่คุณที่สุดถูกส่งเข้าหน้างานภายใน 2-4 ชั่วโมง พร้อมเครื่องมือและอะไหล่มาตรฐาน" data-lang-en="The nearest available technician arrives within 2-4 hours with standard tools and parts on hand.">ช่างใกล้พื้นที่คุณที่สุดถูกส่งเข้าหน้างานภายใน 2-4 ชั่วโมง พร้อมเครื่องมือและอะไหล่มาตรฐาน</p>
+      </div>
+      <div class="t-step reveal">
+        <span class="t-num">STEP 03</span>
+        <h4 data-lang-th="วินิจฉัยและแจ้งราคา" data-lang-en="Diagnose And Quote">วินิจฉัยและแจ้งราคา</h4>
+        <p data-lang-th="ตรวจวัดแรงดันน้ำยา วงจรไฟฟ้า และคอมเพรสเซอร์ แจ้งราคาชัดเจนก่อนลงมือซ่อมทุกครั้ง" data-lang-en="Pressure, circuit, and compressor readings are taken — a clear quote is given before any repair begins.">ตรวจวัดแรงดันน้ำยา วงจรไฟฟ้า และคอมเพรสเซอร์ แจ้งราคาชัดเจนก่อนลงมือซ่อมทุกครั้ง</p>
+      </div>
+      <div class="t-step reveal">
+        <span class="t-num">STEP 04</span>
+        <h4 data-lang-th="ซ่อมและทดสอบระบบ" data-lang-en="Repair And System Test">ซ่อมและทดสอบระบบ</h4>
+        <p data-lang-th="ดำเนินการซ่อมหน้างาน ทดสอบอุณหภูมิและแรงดันก่อนส่งมอบงานทุกครั้ง" data-lang-en="On-site repair is completed, followed by full temperature and pressure verification before handover.">ดำเนินการซ่อมหน้างาน ทดสอบอุณหภูมิและแรงดันก่อนส่งมอบงานทุกครั้ง</p>
+      </div>
+      <div class="t-step reveal">
+        <span class="t-num">STEP 05</span>
+        <h4 data-lang-th="ส่งมอบพร้อมใบรับประกัน" data-lang-en="Handover With Warranty Slip">ส่งมอบพร้อมใบรับประกัน</h4>
+        <p data-lang-th="รับใบรับประกันผลงานทันที พร้อมช่องทางติดต่อหากมีปัญหาเพิ่มเติมภายในระยะเวลาประกัน" data-lang-en="You receive a warranty slip on the spot, plus a direct line for any follow-up during coverage.">รับใบรับประกันผลงานทันที พร้อมช่องทางติดต่อหากมีปัญหาเพิ่มเติมภายในระยะเวลาประกัน</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="dash" id="work">
+  <div class="container">
+    <div class="eyebrow reveal" data-lang-th="มุมมองหน้างานจริง" data-lang-en="ON-SITE POV">มุมมองหน้างานจริง</div>
+    <h2 class="sec-title reveal" data-lang-th="สิ่งที่ช่างเห็น เมื่อเปิดฝาเครื่อง" data-lang-en="What The Technician Sees Inside The Unit">สิ่งที่ช่างเห็น เมื่อเปิดฝาเครื่อง</h2>
+    <p class="sec-desc reveal" data-lang-th="ทุกจุดวัดถูกตรวจสอบอย่างละเอียด ตั้งแต่แผงวงจร คอมเพรสเซอร์ ไปจนถึงระบบท่อน้ำยา" data-lang-en="Every checkpoint gets inspected in detail — from control boards to compressors to refrigerant lines.">ทุกจุดวัดถูกตรวจสอบอย่างละเอียด ตั้งแต่แผงวงจร คอมเพรสเซอร์ ไปจนถึงระบบท่อน้ำยา</p>
+
+    <div class="split reveal">
+      <div class="split-cell">
+        <img src="https://images.unsplash.com/photo-1563770660941-20978e870e26?w=600&h=500&fit=crop" alt="แผงวงจรควบคุมตู้เย็น">
+        <div class="split-overlay">
+          <span class="code">PANEL / PCB-04</span>
+          <h4 data-lang-th="ตรวจแผงวงจรควบคุม" data-lang-en="Control Board Inspection">ตรวจแผงวงจรควบคุม</h4>
+        </div>
+      </div>
+      <div class="split-cell">
+        <img src="https://images.unsplash.com/photo-1705579602199-4157a1041a93?w=600&h=500&fit=crop" alt="ชิ้นส่วนคอมเพรสเซอร์ระบบทำความเย็น">
+        <div class="split-overlay">
+          <span class="code">UNIT / COMP-01</span>
+          <h4 data-lang-th="วัดประสิทธิภาพคอมเพรสเซอร์" data-lang-en="Compressor Performance Check">วัดประสิทธิภาพคอมเพรสเซอร์</h4>
+        </div>
+      </div>
+      <div class="split-cell">
+        <img src="https://images.unsplash.com/photo-1688524231834-fc8f8f71a463?w=600&h=500&fit=crop" alt="ท่อและวาล์วระบบน้ำยาความเย็น">
+        <div class="split-overlay">
+          <span class="code">LINE / VLV-07</span>
+          <h4 data-lang-th="ตรวจสอบท่อและวาล์วน้ำยา" data-lang-en="Refrigerant Line & Valve Audit">ตรวจสอบท่อและวาล์วน้ำยา</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="trust">
+  <div class="container">
+    <div class="eyebrow reveal" data-lang-th="ข้อมูลความน่าเชื่อถือ" data-lang-en="TRUST METRICS">ข้อมูลความน่าเชื่อถือ</div>
+    <h2 class="sec-title reveal" data-lang-th="ตัวเลขที่พิสูจน์การทำงานของเรา" data-lang-en="The Numbers Behind Our Work">ตัวเลขที่พิสูจน์การทำงานของเรา</h2>
+
+    <div class="gauge-row" style="margin-bottom:50px">
+      <div class="gauge reveal">
+        <div class="gauge-val">10+</div>
+        <div class="gauge-lbl" data-lang-th="ปีในสายงาน" data-lang-en="YEARS IN FIELD">ปีในสายงาน</div>
+      </div>
+      <div class="gauge reveal">
+        <div class="gauge-val">3.2K</div>
+        <div class="gauge-lbl" data-lang-th="งานที่ซ่อมสำเร็จ" data-lang-en="UNITS REPAIRED">งานที่ซ่อมสำเร็จ</div>
+      </div>
+      <div class="gauge reveal">
+        <div class="gauge-val">98%</div>
+        <div class="gauge-lbl" data-lang-th="ลูกค้าพึงพอใจ" data-lang-en="SATISFACTION RATE">ลูกค้าพึงพอใจ</div>
+      </div>
+      <div class="gauge reveal">
+        <div class="gauge-val">90D</div>
+        <div class="gauge-lbl" data-lang-th="ระยะรับประกัน" data-lang-en="WARRANTY PERIOD">ระยะรับประกัน</div>
+      </div>
+    </div>
+
+    <div class="testi-grid" style="display:grid;gap:20px">
+      <div class="quote-card reveal">
+        <div class="stars"><i data-lucide="star" width="14" height="14"></i><i data-lucide="star" width="14" height="14"></i><i data-lucide="star" width="14" height="14"></i><i data-lucide="star" width="14" height="14"></i><i data-lucide="star" width="14" height="14"></i></div>
+        <p data-lang-th="ตู้แช่หน้าร้านเสียตอนตี 5 โทรแจ้งช่างวัฒนา มาถึงไวมาก แก้ปัญหาได้จบในรอบเดียว สินค้าไม่เสียหาย" data-lang-en="Our display chiller failed at 5AM — Chang Wattana arrived fast and fixed it in one visit. No stock loss.">ตู้แช่หน้าร้านเสียตอนตี 5 โทรแจ้งช่างวัฒนา มาถึงไวมาก แก้ปัญหาได้จบในรอบเดียว สินค้าไม่เสียหาย</p>
+        <div class="quote-who">
+          <div class="av">ส.</div>
+          <div><b data-lang-th="คุณสมชาย" data-lang-en="Somchai K.">คุณสมชาย</b><span data-lang-th="เจ้าของร้านสะดวกซื้อ" data-lang-en="Convenience Store Owner">เจ้าของร้านสะดวกซื้อ</span></div>
+        </div>
+      </div>
+      <div class="quote-card reveal">
+        <div class="stars"><i data-lucide="star" width="14" height="14"></i><i data-lucide="star" width="14" height="14"></i><i data-lucide="star" width="14" height="14"></i><i data-lucide="star" width="14" height="14"></i><i data-lucide="star" width="14" height="14"></i></div>
+        <p data-lang-th="ตรวจเช็คฟรีจริง แจ้งราคาชัดเจนก่อนซ่อม ไม่มีบวกเพิ่มภายหลัง ช่างมีความรู้อธิบายอาการได้ละเอียด" data-lang-en="The free diagnostic was genuine — clear pricing upfront, no surprise charges, and thorough explanations.">ตรวจเช็คฟรีจริง แจ้งราคาชัดเจนก่อนซ่อม ไม่มีบวกเพิ่มภายหลัง ช่างมีความรู้อธิบายอาการได้ละเอียด</p>
+        <div class="quote-who">
+          <div class="av">พ.</div>
+          <div><b data-lang-th="คุณพิมพ์ใจ" data-lang-en="Pimjai T.">คุณพิมพ์ใจ</b><span data-lang-th="ลูกค้าตู้เย็นบ้าน" data-lang-en="Home Refrigerator Customer">ลูกค้าตู้เย็นบ้าน</span></div>
+        </div>
+      </div>
+      <div class="quote-card reveal">
+        <div class="stars"><i data-lucide="star" width="14" height="14"></i><i data-lucide="star" width="14" height="14"></i><i data-lucide="star" width="14" height="14"></i><i data-lucide="star" width="14" height="14"></i><i data-lucide="star" width="14" height="14"></i></div>
+        <p data-lang-th="ใช้บริการบำรุงรักษาห้องเย็นทุกไตรมาส เครื่องทำงานเสถียรขึ้นมาก ไม่มีปัญหาน้ำยารั่วอีกเลย" data-lang-en="We use quarterly maintenance for our cold room — much more stable now, no more refrigerant leaks.">ใช้บริการบำรุงรักษาห้องเย็นทุกไตรมาส เครื่องทำงานเสถียรขึ้นมาก ไม่มีปัญหาน้ำยารั่วอีกเลย</p>
+        <div class="quote-who">
+          <div class="av">ว.</div>
+          <div><b data-lang-th="คุณวิชัย" data-lang-en="Wichai P.">คุณวิชัย</b><span data-lang-th="ผู้จัดการคลังสินค้าเย็น" data-lang-en="Cold Storage Manager">ผู้จัดการคลังสินค้าเย็น</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="dash">
+  <div class="container">
+    <div class="eyebrow reveal" data-lang-th="พื้นที่ให้บริการ" data-lang-en="COVERAGE ZONE">พื้นที่ให้บริการ</div>
+    <h2 class="sec-title reveal" data-lang-th="ครอบคลุมกรุงเทพฯ และปริมณฑล" data-lang-en="Covering Bangkok And Greater Metro">ครอบคลุมกรุงเทพฯ และปริมณฑล</h2>
+    <p class="sec-desc reveal" data-lang-th="ทีมช่างประจำโซนกระจายทั่วพื้นที่ ทำให้เข้าถึงหน้างานได้รวดเร็วในทุกเขต" data-lang-en="Zone-based technician placement ensures rapid response across every district.">ทีมช่างประจำโซนกระจายทั่วพื้นที่ ทำให้เข้าถึงหน้างานได้รวดเร็วในทุกเขต</p>
+    <div class="coverage-list reveal">
+      <span>กรุงเทพฯ ชั้นใน</span>
+      <span>กรุงเทพฯ ชั้นนอก</span>
+      <span>นนทบุรี</span>
+      <span>ปทุมธานี</span>
+      <span>สมุทรปราการ</span>
+      <span>สมุทรสาคร</span>
+      <span>นครปฐม</span>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="container">
+    <div class="cta-alert reveal">
+      <div class="cta-alert-inner">
+        <div class="eyebrow" data-lang-th="แจ้งเตือนหน้างาน" data-lang-en="FIELD ALERT">แจ้งเตือนหน้างาน</div>
+        <h2 data-lang-th="อย่าปล่อยให้อุณหภูมิสูงขึ้นนานกว่านี้" data-lang-en="Don't Let The Temperature Rise Any Further">อย่าปล่อยให้อุณหภูมิสูงขึ้นนานกว่านี้</h2>
+        <p data-lang-th="ทุกนาทีที่ตู้เย็นไม่เย็น คือความเสี่ยงต่อสินค้าและอาหารของคุณ ติดต่อทีมช่างวัฒนาได้ทันที" data-lang-en="Every minute without cooling risks your stock and food safety. Reach the Chang Wattana team now.">ทุกนาทีที่ตู้เย็นไม่เย็น คือความเสี่ยงต่อสินค้าและอาหารของคุณ ติดต่อทีมช่างวัฒนาได้ทันที</p>
+        <div class="cta-btns">
+          <a href="tel:0812345678" class="btn btn-primary"><i data-lucide="phone-call" width="17" height="17"></i><span data-lang-th="โทร 081-234-5678" data-lang-en="Call 081-234-5678">โทร 081-234-5678</span></a>
+          <a href="https://line.me" class="btn btn-secondary"><i data-lucide="message-circle" width="17" height="17"></i><span data-lang-th="แชท LINE" data-lang-en="Chat On LINE">แชท LINE</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <div class="brand"><span class="dot"></span>ช่างวัฒนา<span style="color:var(--primary)">.SVC</span></div>
+        <p data-lang-th="หน่วยเทคนิคซ่อมตู้เย็น-ตู้แช่นอกสถานที่ ให้บริการกรุงเทพฯ และปริมณฑล ด้วยทีมช่างมืออาชีพกว่า 10 ปี" data-lang-en="On-site refrigerator and cold-cabinet repair unit serving Bangkok and greater metro with 10+ years of technical expertise.">หน่วยเทคนิคซ่อมตู้เย็น-ตู้แช่นอกสถานที่ ให้บริการกรุงเทพฯ และปริมณฑล ด้วยทีมช่างมืออาชีพกว่า 10 ปี</p>
+      </div>
+      <div class="foot-col">
+        <h5 data-lang-th="บริการ" data-lang-en="SERVICES">บริการ</h5>
+        <a href="#services" data-lang-th="ซ่อมตู้เย็นบ้าน" data-lang-en="Home Repair">ซ่อมตู้เย็นบ้าน</a>
+        <a href="#services" data-lang-th="ตู้แช่ร้านค้า" data-lang-en="Commercial Chillers">ตู้แช่ร้านค้า</a>
+        <a href="#services" data-lang-th="ตู้แช่แข็งพิเศษ" data-lang-en="Special Freezers">ตู้แช่แข็งพิเศษ</a>
+        <a href="#services" data-lang-th="บำรุงรักษา" data-lang-en="Maintenance">บำรุงรักษา</a>
+      </div>
+      <div class="foot-col">
+        <h5 data-lang-th="บริษัท" data-lang-en="COMPANY">บริษัท</h5>
+        <a href="#process" data-lang-th="ขั้นตอนการทำงาน" data-lang-en="Our Process">ขั้นตอนการทำงาน</a>
+        <a href="#trust" data-lang-th="รีวิวลูกค้า" data-lang-en="Customer Reviews">รีวิวลูกค้า</a>
+        <a href="#contact" data-lang-th="ติดต่อเรา" data-lang-en="Contact Us">ติดต่อเรา</a>
+      </div>
+      <div class="foot-col">
+        <h5 data-lang-th="ติดต่อ" data-lang-en="CONTACT">ติดต่อ</h5>
+        <p>081-234-5678</p>
+        <p>line: @changwattana</p>
+        <p data-lang-th="กรุงเทพฯ และปริมณฑล" data-lang-en="Bangkok & Metro Area">กรุงเทพฯ และปริมณฑล</p>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span data-lang-th="© 2569 ช่างวัฒนา ซ่อมตู้เย็น นอกสถานที่ สงวนลิขสิทธิ์" data-lang-en="© 2026 Chang Wattana Refrigerator Repair. All rights reserved.">© 2569 ช่างวัฒนา ซ่อมตู้เย็น นอกสถานที่ สงวนลิขสิทธิ์</span>
+      <span data-lang-th="พร้อมออกงานทุกวัน 24 ชั่วโมง" data-lang-en="Available 24 Hours, Every Day">พร้อมออกงานทุกวัน 24 ชั่วโมง</span>
+    </div>
+  </div>
+</footer>
+
+<a href="tel:0812345678" class="float-call" aria-label="call now">
+  <span class="ring"></span>
+  <i data-lucide="phone" width="24" height="24"></i>
+</a>
+
+<script>
+  lucide.createIcons();
+
+  // navbar scroll shrink
+  var navbar=document.getElementById('navbar');
+  window.addEventListener('scroll',function(){
+    if(window.scrollY>30){navbar.classList.add('scrolled')}else{navbar.classList.remove('scrolled')}
+  });
+
+  // mobile menu
+  var hb=document.getElementById('hamburgerBtn'),mm=document.getElementById('mobileMenu'),ov=document.getElementById('menuOverlay'),cb=document.getElementById('closeMenuBtn');
+  function openMenu(){mm.classList.add('open');ov.classList.add('open')}
+  function closeMenu(){mm.classList.remove('open');ov.classList.remove('open')}
+  hb.addEventListener('click',openMenu);
+  cb.addEventListener('click',closeMenu);
+  ov.addEventListener('click',closeMenu);
+  document.querySelectorAll('.mobile-menu a').forEach(function(a){a.addEventListener('click',closeMenu)});
+
+  // scroll reveal
+  var obs=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target)}
+    });
+  },{threshold:0.15});
+  document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el)});
+</script>
+
+<script>
+(function(){var K='site-lang',L=localStorage.getItem(K)||'th';function S(l){L=l;localStorage.setItem(K,l);document.documentElement.lang=l;document.querySelectorAll('[data-lang-th]').forEach(function(e){var t=e.getAttribute('data-lang-'+l);if(t!==null){if(/[<&]/.test(t)){e.innerHTML=t}else{e.textContent=t}}});var lb=document.querySelector('.lang-sw__label');if(lb){lb.textContent=l.toUpperCase()}}var sw=document.querySelector('.lang-sw');if(sw){sw.addEventListener('click',function(){S(L==='th'?'en':'th')});sw.style.cursor='pointer'}if(L!=='th'){S(L)}})();
+</script>
+
+</body>
+</html>

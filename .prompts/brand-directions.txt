@@ -1,0 +1,5 @@
+DIRECTION 1: Single-column oversized-headline hero with vast negative space, service list as a quiet 3-col icon grid — tight geometric grotesk (Neue Haas–style, condensed tracking) — monochromatic steel: off-white #FAFAF7, graphite #2B2B2E, mid steel-gray #8A8D91 tints, referencing a Muji appliance-manual palette — calm, precise, clinical trust-through-restraint mood.
+
+DIRECTION 2: Dark asymmetric dashboard layout with schematic diagram overlays and split-screen technician POV photos — condensed industrial sans (like Eurostile), dense data-plate labeling — dark mode: near-black canvas #0E1113 + electric refrigerant-gauge cyan #00E5FF as sole accent — tense, technical, high-alert urgency mood.
+
+DIRECTION 3: Diagonal-cropped editorial magazine layout with sticker-style callout badges and rotated photo collage — rounded friendly sans (Bricolage/DM Sans style) with oversized numerals — unexpected pairing: muted teal-grey #4E6660 base, cream #F2ECDF secondary, hot jewel coral #FF3D57 accent, referencing 1960s Thai enamel shop signage — playful, energetic, neighborhood-approachable mood.
