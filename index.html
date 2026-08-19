@@ -234,7 +234,11 @@ body.menu-open .drawer a:nth-child(6){transition-delay:.31s}
   padding:16px 18px;margin-bottom:20px;color:var(--muted);font-size:.9rem}
 .acc{display:grid;gap:10px}
 .pgroup{background:var(--card);backdrop-filter:var(--glass);-webkit-backdrop-filter:var(--glass);
-  border:1px solid rgba(255,255,255,.85);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow)}
+  border:1px solid rgba(255,255,255,.85);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow);
+  /* these accordion groups are <section> elements, so the page-level
+     section{padding-block:72px/104px} rule would add ~208px of dead space
+     inside every card. The card's own spacing comes from the button padding. */
+  padding-block:0}
 .pgroup > button{width:100%;display:flex;align-items:center;gap:14px;text-align:start;
   background:transparent;border:0;font:inherit;padding:18px 20px;cursor:pointer;color:inherit}
 .pgroup > button .n{font-family:var(--font-heading);font-size:.78rem;font-weight:600;color:var(--primary);
